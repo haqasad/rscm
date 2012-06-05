@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.aspectsense.rscm.sensor.location.fine"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application android:label="@string/app_name">
+
+        <service android:name=".LocationSensorFine" android:exported="true">
+            <intent-filter>
+                <!-- These are the interfaces supported by the service, which you can bind to. -->
+                <action android:name="org.aspectsense.rscm.context.SELECT_CONTEXT_PLUGIN" />
+                <!-- Each plugin must specify exactly one category property, in order to allow the middleware to pick
+                     the right one. The category must be unique and match the service ID. -->
+                <category android:name="org.aspectsense.rscm.sensor.location.fine.LocationSensorFine" />
+            </intent-filter>
+            <meta-data android:name="provided_scopes" android:value="location.fine"/>
+        </service>
+
+    </application>
+
+</manifest>
