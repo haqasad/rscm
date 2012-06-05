@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="eu.istmusic.context.sensor.wifi_connectivity">
+          package="org.aspectsense.rscm.sensor.wifi_connectivity">
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application android:label="@string/app_name">
         <service android:name=".WifiConnectivitySensor" android:exported="true">
             <intent-filter>
                 <!-- These are the interfaces supported by the service, which you can bind to. -->
-                <action android:name="eu.istmusic.middleware.context.SELECT_CONTEXT_PLUGIN" />
+                <action android:name="org.aspectsense.rscm.context.SELECT_CONTEXT_PLUGIN" />
                 <!-- Each plugin must specify exactly one category property, in order to allow the middleware to pick
                      the right one. The category must be unique and match the service ID. -->
-                <category android:name="eu.istmusic.context.sensor.battery.WifiConnectivitySensor" />
+                <category android:name="org.aspectsense.rscm.sensor.WifiConnectivitySensor" />
             </intent-filter>
             <!-- The metadata can be used in later versions to allow for cleverly selecting the most appropriate plugin -->
             <meta-data android:name="provided_scopes" android:value="network.wifi_connectivity"/>
