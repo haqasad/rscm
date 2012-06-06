@@ -186,11 +186,13 @@ Log.d(TAG, "$*** removeContextUpdates(" + scope + ", " + asynchronousContextList
         @Override public void handleMessage(Message msg)
         {
             Log.d(TAG, "handler.handleMessage: " + msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case CONTEXT_VALUE_TYPE:
                     final ContextValue contextValue = (ContextValue) msg.obj;
                     ContextListenerActivity.this.onContextValueChanged(contextValue);
                     break;
+
                 default:
                     super.handleMessage(msg);
             }

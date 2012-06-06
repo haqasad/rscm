@@ -20,5 +20,5 @@
   -->
 
 <resources>
-    <string name="app_name">Really Simple Context Middleware (RCSM)</string>
+    <string name="app_name">RCSM runtime</string>
 </resources>

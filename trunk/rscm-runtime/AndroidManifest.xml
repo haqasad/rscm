@@ -26,7 +26,7 @@
 
     <application android:label="@string/app_name">
 
-        <service android:name="org.aspectsense.rscm.runtime.ContextService">
+        <service android:name=".ContextService">
             <intent-filter>
                 <!-- These are the interfaces supported by the service, which you can bind to. -->
                 <action android:name="org.aspectsense.rscm.IContextAccess" />
@@ -34,7 +34,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="org.aspectsense.rscm.runtime.PackageBroadcastReceiver">
+        <receiver android:name=".PackageBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
