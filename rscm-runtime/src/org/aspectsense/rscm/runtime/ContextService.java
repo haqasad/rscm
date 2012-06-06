@@ -29,11 +29,13 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.*;
 import android.util.Log;
+
+import java.util.*;
+
 import org.aspectsense.rscm.*;
 import org.aspectsense.rscm.context.Intents;
 import org.aspectsense.rscm.context.plugin.PluginServiceConnection;
 
-import java.util.*;
 
 /**
  * Also see: http://developer.android.com/guide/topics/fundamentals/bound-services.html#Messenger
@@ -45,6 +47,9 @@ import java.util.*;
 public class ContextService extends Service
 {
     public static final String TAG = "org.aspectsense.rscm.runtime.ContextService";
+
+    public static final String PROVIDED_SCOPES_KEY = "provided_scopes";
+    public static final String REQUIRED_SCOPES_KEY = "required_scopes";
 
     /**
      * The system calls this method when another component wants to bind with the service (such as to perform RPC), by
@@ -97,8 +102,8 @@ public class ContextService extends Service
 
     /**
      * The system calls this method when the service is no longer used and is being destroyed. Your service should
-     * implement this to clean up any resources such as threads, registered scopesToListeners, receivers, etc. This is the
-     * last call the service receives.
+     * implement this to clean up any resources such as threads, registered scopesToListeners, receivers, etc. This is
+     * the last call the service receives.
      */
     @Override public void onDestroy()
     {
@@ -108,7 +113,7 @@ public class ContextService extends Service
         super.onDestroy();
     }
 
-    private void addContextListener(String scope, IContextListener contextListener)
+    private void addContextListener(final String scope, final IContextListener contextListener)
     {
         synchronized (scopesToListeners)
         {
@@ -153,18 +158,15 @@ public class ContextService extends Service
     {
         @Override public void requestContextUpdates(final String scope, final IContextListener contextListener) throws RemoteException
         {
-Log.d(TAG, "$%$ scope: " + scope + ", contextListener: " + contextListener);
             if(scope == null) throw new RemoteException("Invalid null value for scope");
             if(contextListener == null) throw new RemoteException("Invalid null value for contextListener");
 
             final Set<String> requiredPermissions = getPermissionsForScope(scope);
-Log.d(TAG, "$%$ requiredPermissions: " + requiredPermissions);
             boolean hasPermissions = true;
             if(requiredPermissions != null)
             {
                 for(final String requiredPermission : requiredPermissions)
                 {
-Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (checkCallingPermission(requiredPermission) == PackageManager.PERMISSION_GRANTED));
                     if(checkCallingPermission(requiredPermission) != PackageManager.PERMISSION_GRANTED)
                     {
                         hasPermissions = false;
@@ -180,15 +182,14 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
             }
             else
             {
-                Log.w(TAG, "$%$ Context listener " + contextListener + " has no required permissions: " + requiredPermissions);
-                // todo add a message in the status bar of android
+                Log.w(TAG, "Context listener " + contextListener + " has no required permissions: " + requiredPermissions);
+                // todo add a warning message in the status bar of android
             }
         }
 
         @Override public void removeContextUpdates(String scope, IContextListener contextListener) throws RemoteException
         {
             removeContextListener(scope, contextListener);
-
             activatePlugins();
         }
     };
@@ -203,8 +204,9 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
         }
         else
         {
+            // updates the list of installed plugins
             final Intent selectContextPluginIntent = new Intent(Intents.ACTION_SELECT_CONTEXT_PLUGIN);
-            selectContextPluginIntent.setFlags(Intent.FLAG_DEBUG_LOG_RESOLUTION);// remove?
+            selectContextPluginIntent.setFlags(Intent.FLAG_DEBUG_LOG_RESOLUTION); // remove?
             final List<ResolveInfo> allPluginsResolveInfo = packageManager.queryIntentServices(selectContextPluginIntent, PackageManager.GET_RESOLVED_FILTER | PackageManager.GET_META_DATA);
 
             final Set<PluginRecord> pluginRecords = new HashSet<PluginRecord>();
@@ -232,7 +234,7 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
                             for(final String key : keys)
                             {
                                 final String value = serviceInfoMetadata.get(key).toString();
-                                if(key.equals("provided_scopes"))
+                                if(key.equals(PROVIDED_SCOPES_KEY))
                                 {
                                     final String [] providedScopes = value.split(",");
                                     for(final String providedScope : providedScopes)
@@ -240,7 +242,7 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
                                         providedContextTypes.add(providedScope.trim());
                                     }
                                 }
-                                else if(key.startsWith("required_scopes"))
+                                else if(key.startsWith(REQUIRED_SCOPES_KEY))
                                 {
                                     final String [] requiredScopes = value.split(",");
                                     for(final String requiredScope : requiredScopes)
@@ -467,8 +469,8 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
                             {
                                 scopesToListeners.put(requiredScope, new HashSet<IContextListener>());
                             }
-                            final Set<IContextListener> registeredListeners = scopesToListeners.get(requiredScope);
-                            registeredListeners.add(new ContextListenerPluginWrapper(pluginRecord));
+//                            final Set<IContextListener> registeredListeners = scopesToListeners.get(requiredScope);
+//                            registeredListeners.add(new ContextListenerPluginWrapper(pluginRecord));
                         }
 
                         // clear flag to force more loops
@@ -508,7 +510,7 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
                         {
                             final Set<IContextListener> registeredPluginRecords = scopesToListeners.get(pluginProvidedScope);
                             assert registeredPluginRecords != null;
-                            registeredPluginRecords.remove(new ContextListenerPluginWrapper(pluginRecord));
+//                            registeredPluginRecords.remove(new ContextListenerPluginWrapper(pluginRecord));
                             if(registeredPluginRecords.isEmpty()) scopesToListeners.remove(pluginProvidedScope);
                         }
 
@@ -707,7 +709,7 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
                             }
                             catch (RemoteException re)
                             {
-                                Log.e(TAG, re.getMessage());
+                                Log.e(TAG, "RemotedException while handling context value change event", re);
                             }
                         }
                     }
@@ -744,49 +746,84 @@ Log.d(TAG, "$%$ checkCallingPermission for " + requiredPermission + " --> " + (c
     };
 
     //todo
-    private class ContextListenerPluginWrapper implements IContextListener
-    {
-        private final PluginRecord pluginRecord;
-
-        ContextListenerPluginWrapper(final PluginRecord pluginRecord)
-        {
-            this.pluginRecord = pluginRecord;
-        }
-
-        @Override public boolean equals(Object o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass())
-            {
-                return false;
-            }
-
-            ContextListenerPluginWrapper that = (ContextListenerPluginWrapper) o;
-
-            if (pluginRecord != null ? !pluginRecord.equals(that.pluginRecord) : that.pluginRecord != null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override public int hashCode()
-        {
-            return pluginRecord != null ? pluginRecord.hashCode() : 0;
-        }
-
-        @Override public void onContextValueChanged(ContextValue contextValue) throws RemoteException
-        {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override public IBinder asBinder()
-        {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
+//    private class ContextListenerPluginWrapper implements IContextListener
+//    {
+//        private final PluginRecord pluginRecord;
+//
+//        ContextListenerPluginWrapper(final PluginRecord pluginRecord)
+//        {
+//            this.pluginRecord = pluginRecord;
+//        }
+//
+//        @Override public boolean equals(Object o)
+//        {
+//            if (this == o)
+//            {
+//                return true;
+//            }
+//            if (o == null || getClass() != o.getClass())
+//            {
+//                return false;
+//            }
+//
+//            final ContextListenerPluginWrapper that = (ContextListenerPluginWrapper) o;
+//
+//            if (pluginRecord != null ? !pluginRecord.equals(that.pluginRecord) : that.pluginRecord != null)
+//            {
+//                return false;
+//            }
+//
+//            return true;
+//        }
+//
+//        @Override public int hashCode()
+//        {
+//            return pluginRecord != null ? pluginRecord.hashCode() : 0;
+//        }
+//
+//        @Override public void onContextValueChanged(ContextValue contextValue) throws RemoteException
+//        {
+//            // todo wire to the actual plugin
+//            mBinder.onContextValueChanged(contextValue);
+//        }
+//
+//        @Override public IBinder asBinder()
+//        {
+//            return mBinder;
+//        }
+//
+//        private IContextListener.Stub mBinder = new Stub()
+//        {
+//            @Override public void onContextValueChanged(ContextValue contextValue) throws RemoteException
+//            {
+//                Log.d(TAG, "IContextListener.onContextValueChanged: " + contextValue);
+//                myHandler.sendMessage(myHandler.obtainMessage(CONTEXT_VALUE_TYPE, contextValue));
+//            }
+//        };
+//
+//        private Handler myHandler = new Handler()
+//        {
+//            @Override public void handleMessage(Message msg)
+//            {
+//                Log.d(TAG, "handler.handleMessage: " + msg);
+//                switch (msg.what)
+//                {
+//                    case CONTEXT_VALUE_TYPE:
+//                        final ContextValue contextValue = (ContextValue) msg.obj;
+//                        try
+//                        {
+//                            onContextValueChanged(contextValue);
+//                        }
+//                        catch (RemoteException re)
+//                        {
+//                            Log.e(TAG, "Remote exception while handling context value: " + contextValue, re);
+//                        }
+//                        break;
+//
+//                    default:
+//                        super.handleMessage(msg);
+//                }
+//            }
+//        };
+//    }
 }
