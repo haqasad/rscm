@@ -28,7 +28,23 @@ Create a new [http://developer.android.com/guide/topics/fundamentals/activities.
 
 The resulting code should look like this:
 {{{
+package org.aspectsense.rscm.quickstart;
 
+import org.aspectsense.rscm.ContextValue;
+import org.aspectsense.rscm.context.client.ContextListenerActivity;
+
+public class MyContextAwareActivity extends ContextListenerActivity
+{
+    @Override public String[] getRequestedScopes()
+    {
+        return new String[0]; // todo
+    }
+
+    @Override public void onContextValueChanged(ContextValue contextValue)
+    {
+        // todo
+    }
+}
 }}}
 
 == 3. 
