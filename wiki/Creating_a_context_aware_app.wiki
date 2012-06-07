@@ -134,4 +134,4 @@ Once you have your activity in place, you can go ahead and install it on your de
 
 If everything went smoothly, you should view something like this screenshot in your app:
 
-[http://code.google.com/p/rscm/source/browse/wiki/rscm_quickstart_screenshot.png http://code.google.com/p/rscm/source/browse/wiki/rscm_quickstart_screenshot.png]
+[http://rscm.googlecode.com/svn/wiki/rscm_quickstart_screenshot.png http://rscm.googlecode.com/svn/wiki/rscm_quickstart_screenshot.png]
