@@ -161,3 +161,7 @@ The complete manifest for the example is illustrated here (and is also available
 
 </manifest>
 }}}
+
+== 5. Deploying ==
+
+Deploying a context sensor plugin (also a reasoner plugin) is as simple as installing the resulting APK on your device. If the device is published in the market, then it can be installed from there as well.
