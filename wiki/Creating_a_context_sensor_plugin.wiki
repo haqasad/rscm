@@ -122,3 +122,50 @@ public class BatterySensor extends SensorService
 }}}
 
 == 5. Editing the manifest ==
+
+The final step in creating a context sensor plugin is defining its manifest file. Most IDEs would have already created a structure similar to the following for your app:
+
+{{{
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.aspectsense.rscm.sensor.battery"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
+
+    <application android:label="@string/app_name">
+        <service android:name=".BatterySensor" android:exported="true">
+        </service>
+    </application>
+
+</manifest>
+}}}
+
+To facilitate the dynamic discovery and selection of plugins, RSCM requires that context plugins are annotated with:
+  # An {{{intent-filter}}} specifying an *action* and a *category*. The action should have a fixed value {{{<action android:name="org.aspectsense.rscm.context.SELECT_CONTEXT_PLUGIN" />}}}. The category should point to the full (absolute) name of the class realizing the plugin (in this example, {{{<category android:name="org.aspectsense.rscm.sensor.battery.BatterySensor" />}}}.
+  # {{{meta-data}}} specifying the _provided scopes_ of the sensor plugin (also the _required scopes_ in case of a context reasoner plugin).
+
+The complete manifest for the example is illustrated here (and is also available at [http://code.google.com/p/rscm/source/browse/trunk/plugins/plugin-sensor-battery/AndroidManifest.xml AndroidManifest.xml]):
+
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.aspectsense.rscm.sensor.battery"
+          android:versionCode="1"
+          android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
+
+    <application android:label="@string/app_name">
+        <service android:name=".BatterySensor" android:exported="true">
+            <intent-filter>
+                <action android:name="org.aspectsense.rscm.context.SELECT_CONTEXT_PLUGIN" />
+                <category android:name="org.aspectsense.rscm.sensor.battery.BatterySensor" />
+            </intent-filter>
+            <meta-data android:name="provided_scopes" android:value="battery.level, battery.voltage, battery.temp"/>
+        </service>
+    </application>
+
+</manifest>
+}}}
