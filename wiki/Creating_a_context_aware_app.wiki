@@ -49,12 +49,12 @@ public class MyContextAwareActivity extends ContextListenerActivity
 
 == 3. Realize the {{{getRequestedScopes()}}} method ===
 
-This method is used to define the scopes of the requested context types. In this example, let's just assume we are interested in the _power.connected_ scope. The code is edited as follows:
+This method is used to define the scopes of the requested context types. In this example, let's just assume we are interested in the _battery.level_ scope. The code is edited as follows:
 
 {{{
     @Override public String[] getRequestedScopes()
     {
-        return new String[] { "power.connected" };
+        return new String[] { "battery.level" };
     }
 }}}
 
@@ -66,7 +66,7 @@ This callback method is automatically invoked by RSCM whenever there is a contex
     {
         try
         {
-            appendMessage(new Date() + ":" + contextValue.getValueAsBoolean());
+            appendMessage(new Date() + ": The battery level is " + contextValue.getValueAsInteger() + "%");
         }
         catch (JSONException jsone)
         {
@@ -83,7 +83,6 @@ package org.aspectsense.rscm.quickstart;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.aspectsense.rscm.ContextValue;
 import org.aspectsense.rscm.context.client.ContextListenerActivity;
 import org.json.JSONException;
@@ -94,7 +93,7 @@ public class MyContextAwareActivity extends ContextListenerActivity
 {
     @Override public String[] getRequestedScopes()
     {
-        return new String[] { "power.connected" };
+        return new String[] { "battery.level" };
     }
 
     private TextView messageTextView;
@@ -117,7 +116,7 @@ public class MyContextAwareActivity extends ContextListenerActivity
     {
         try
         {
-            appendMessage(new Date() + ":" + contextValue.getValueAsBoolean());
+            appendMessage(new Date() + ": The battery level is " + contextValue.getValueAsInteger() + "%");
         }
         catch (JSONException jsone)
         {
@@ -131,4 +130,8 @@ public class MyContextAwareActivity extends ContextListenerActivity
 
 Once you have your activity in place, you can go ahead and install it on your device and launch it. However, just like all other RSCM apps, a little preparation is needed. In particular:
   * You should make sure that the RSCM middleware is installed
-  * You should make sure that the appropriate plugins are installed on your device. (In this example, the required plugin is simply the [http://code.google.com/p/rscm/source/browse/trunk/plugins/plugin-sensor-battery plugin-sensor-battery].)
+  * You should make sure that the appropriate plugins are installed on your device. (In this example, there is only one required plugin, the [http://code.google.com/p/rscm/source/browse/trunk/plugins/plugin-sensor-battery plugin-sensor-battery].)
+
+If everything went smoothly, you should view something like this screenshot in your app:
+
+http://code.google.com/p/rscm/source/browse/wiki/rscm_quickstart_screenshot.png
