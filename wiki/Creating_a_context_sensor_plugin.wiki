@@ -13,4 +13,23 @@ A context plugin is basically an ANDROID Bound service. The required steps are:
   # Intercept the [http://developer.android.com/guide/topics/fundamentals/bound-services.html bound service lifecycle] methods to register (and unregister) from the underlying context source
   # Create context change notifications
 
-== Start ==
+= Example =
+
+These steps are better illustrated with an example. This example creates a trivial sensor plugin that produces events related to the (remaining) battery level. Here are the required steps:
+
+== 1. Create a new project ==
+
+Using the IDE of your choice, create a new ANDROID project. Make sure that the project includes the RSCM library as an external library.
+
+
+== 2. Create a new sensor service ==
+
+Create a new [http://developer.android.com/guide/topics/fundamentals/services.html Service]. Edit your service so that it _extends_ the [http://code.google.com/p/rscm/source/browse/trunk/rscm-library/src/org/aspectsense/rscm/context/plugin/SensorService.java org.aspectsense.rscm.context.plugin.SensorService.java] instead of the android.app.Service class. The resulting code should look as follows:
+
+{{{
+public class BatterySensor extends SensorService
+{
+}
+}}}
+
+The _base class_ provides a protected method, that the implemented plugin must invoke in order to communicate the generated context values. The signature of this method is {{{ protected void notifyListener(final ContextValue contextValue); }}}
