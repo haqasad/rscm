@@ -47,4 +47,76 @@ public class MyContextAwareActivity extends ContextListenerActivity
 }
 }}}
 
-== 3. Realize the {{{getRequestedScopes}}} method ===
+== 3. Realize the {{{getRequestedScopes()}}} method ===
+
+This method is used to define the scopes of the requested context types. In this example, let's just assume we are interested in the _user.activity_ scope. The code is edited as follows:
+
+{{{
+    @Override public String[] getRequestedScopes()
+    {
+        return new String[] { "user.activity" };
+    }
+}}}
+
+== 4. Realize the {{{onContextValueChanged()}}} callback method ===
+
+This callback method is automatically invoked by RSCM whenever there is a context change for any of the requested scopes. In this example, we simply display the received context value on the phone's display.
+{{{
+
+        try
+        {
+            appendMessage(contextValue.getValueAsString());
+        }
+        catch (JSONException jsone)
+        {
+            Toast.makeText(this, "Error while displaying context event: " + contextValue, Toast.LENGTH_SHORT).show();
+        }
+}}}
+
+The complete code, with a TextView for displaying the received context changes is illustrated below:
+
+{{{
+package org.aspectsense.rscm.quickstart;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+import org.aspectsense.rscm.ContextValue;
+import org.aspectsense.rscm.context.client.ContextListenerActivity;
+import org.json.JSONException;
+
+public class MyContextAwareActivity extends ContextListenerActivity
+{
+    @Override public String[] getRequestedScopes()
+    {
+        return new String[] { "user.activity" };
+    }
+
+    private TextView messageTextView;
+
+    @Override protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        messageTextView = new TextView(this);
+        setContentView(messageTextView);
+        appendMessage("Activity created");
+    }
+
+    private void appendMessage(final String message)
+    {
+        final String currentMessage = messageTextView.getText().toString();
+        messageTextView.setText(currentMessage + "\n" + message);
+    }
+
+    @Override public void onContextValueChanged(ContextValue contextValue)
+    {
+        try
+        {
+            appendMessage(contextValue.getValueAsString());
+        }
+        catch (JSONException jsone)
+        {
+            Toast.makeText(this, "Error while displaying context event: " + contextValue, Toast.LENGTH_SHORT).show();
+        }
+    }
+}}}}
