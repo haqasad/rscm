@@ -1,0 +1,16 @@
+#summary This is a quick guide on how to create a context sensor plugin for ANDROID using the RSCM middleware
+
+= Introduction =
+
+Context sensor (and reasoner) plugins are essential components of the RSCM middleware. Instead of packing all context sensing (and reasoning functionality) in a single app, RSCM allows you to define plugins as individual, reusable and dynamically discoverable components.
+
+This page will guide you through the required steps for building a context sensor plugin.
+
+= Basics =
+
+A context plugin is basically an ANDROID Bound service. The required steps are:
+  # Define the provided context types
+  # Intercept the [http://developer.android.com/guide/topics/fundamentals/bound-services.html bound service lifecycle] methods to register (and unregister) from the underlying context source
+  # Create context change notifications
+
+== Start ==
