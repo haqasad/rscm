@@ -37,7 +37,7 @@ import org.aspectsense.rscm.*;
  * Date: 4/13/12
  * Time: 1:01 PM
  */
-abstract public class SensorService extends Service
+public class SensorService extends Service
 {
     public static final String TAG = "org.aspectsense.rscm.context.plugin.SensorService";
 

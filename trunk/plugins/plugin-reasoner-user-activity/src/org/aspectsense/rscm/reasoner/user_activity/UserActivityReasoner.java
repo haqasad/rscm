@@ -49,11 +49,11 @@ public class UserActivityReasoner extends ReasonerService
                 final int battery_level = contextValue.getValueAsInteger();
                 if(previous_battery_level != BATTERY_LEVEL_UNKNOWN && previous_battery_level > battery_level)
                 {
-                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is discharging his phone"));
+                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is discharging his phone (" + battery_level + "% full)"));
                 }
                 else if(previous_battery_level != BATTERY_LEVEL_UNKNOWN && previous_battery_level < battery_level)
                 {
-                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is charging his phone"));
+                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is charging his phone (" + battery_level + "% full)"));
                 }
                 previous_battery_level = battery_level;
             }
