@@ -62,7 +62,8 @@ This method is used to define the scopes of the requested context types. In this
 
 This callback method is automatically invoked by RSCM whenever there is a context change for any of the requested scopes. In this example, we simply display the received context value on the phone's display.
 {{{
-
+    @Override public void onContextValueChanged(ContextValue contextValue)
+    {
         try
         {
             appendMessage(contextValue.getValueAsString());
@@ -71,6 +72,7 @@ This callback method is automatically invoked by RSCM whenever there is a contex
         {
             Toast.makeText(this, "Error while displaying context event: " + contextValue, Toast.LENGTH_SHORT).show();
         }
+    }
 }}}
 
 The complete code, with a TextView for displaying the received context changes is illustrated below:
