@@ -2,8 +2,10 @@ package org.aspectsense.rscm.camp;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.aspectsense.rscm.ContextValue;
 import org.aspectsense.rscm.context.client.ContextListenerActivity;
+import org.json.JSONException;
 
 /**
  * @author Nearchos Paspallis (nearchos@aspectsense.com)
@@ -15,10 +17,6 @@ public class CaMP extends ContextListenerActivity
     public static final String TAG = "org.aspectsense.rscm.camp.CaMP";
 
     public static final String [] REQUESTED_SCOPES = new String[] {
-            "battery.level",
-            "power.connected",
-            "location.coarse",
-            "location.fine",
             "user.activity"
     };
 
@@ -46,7 +44,14 @@ public class CaMP extends ContextListenerActivity
 
     @Override public void onContextValueChanged(ContextValue contextValue)
     {
-        appendMessage(contextValue.toString());
+        try
+        {
+            appendMessage(contextValue.getValueAsString());
+        }
+        catch (JSONException jsone)
+        {
+            Toast.makeText(this, "Error while displaying context event: " + contextValue, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override protected void onContextServiceConnected()
