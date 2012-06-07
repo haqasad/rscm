@@ -1,0 +1,13 @@
+#summary Getting Started with RSCM
+
+= Introduction =
+
+This page will guide you into creating a context-aware app for ANDROID using the RSCM middleware.
+
+
+= Details =
+
+Sections:
+  * *Creating a context-aware app*
+  * *Creating a context sensor plugin*
+  * *Creating a context reasoner plugin*
