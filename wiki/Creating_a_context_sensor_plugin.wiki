@@ -41,3 +41,27 @@ Typically, context sensor plugins are _wrappers_ of underlying sensing functiona
 A properly behaving plugin should start monitoring the underlying context as soon as it is started (i.e. service is bound) and stop immediately before terminating (i.e. service is stopped). To realize this kind of behavior, the Service lifecycle is typically exploited. In particular, the following two methods are overriden with the purpose of controlling when to start/stop listening to context changes:
   * {{{@Override public IBinder onBind(Intent intent);}}}
   * {{{@Override public boolean onUnbind(Intent intent);}}}
+
+In this example, the requirement is to start listening to changes in the battery level when the sensor plugin is active. This is achieved by realizing these two methods as follows:
+
+{{{
+    @Override public IBinder onBind(Intent intent)
+    {
+        registerReceiver(batteryReceiver, filter);
+
+        return super.onBind(intent);
+    }
+
+    @Override public boolean onUnbind(Intent intent)
+    {
+        unregisterReceiver(batteryReceiver);
+
+        return super.onUnbind(intent);
+    }
+}}}
+
+The calls to the {{{registerReceiver(...)}}} and {{{unregisterReceiver(...)}}} methods (defined by ANDROID) allow for registering a [http://developer.android.com/reference/android/content/BroadcastReceiver.html Receiver] component to receive certain events. In this case the type we are interested in is [http://developer.android.com/reference/android/content/Intent.html#ACTION_BATTERY_CHANGED Intent.ACTION_BATTERY_CHANGED]:
+
+{{{
+    public static final IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+}}}
