@@ -8,6 +8,6 @@ This page will guide you into creating a context-aware app for ANDROID using the
 = Details =
 
 Sections:
-  * *Creating a context-aware app*
+  * *Creating a context-aware app* Creating_a_context_aware_app
   * *Creating a context sensor plugin*
   * *Creating a context reasoner plugin*
