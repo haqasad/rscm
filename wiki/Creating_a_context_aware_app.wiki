@@ -22,4 +22,13 @@ Using the IDE of your choice, create a new ANDROID project. Make sure that the p
 
 == 2. Create a context-aware Activity ==
 
-Create a new [http://developer.android.com/guide/topics/fundamentals/activities.html Activity]. Edit your activity so that it _extends_ the [http://code.google.com/p/rscm/source/browse/trunk/rscm-library/src/org/aspectsense/rscm/context/client/ContextListenerActivity.java org.aspectsense.rscm.context.client.ContextListenerActivity.java] instead of the [http://developer.android.com/reference/android/app/Activity.html android.app.Activity] class.
+Create a new [http://developer.android.com/guide/topics/fundamentals/activities.html Activity]. Edit your activity so that it _extends_ the [http://code.google.com/p/rscm/source/browse/trunk/rscm-library/src/org/aspectsense/rscm/context/client/ContextListenerActivity.java org.aspectsense.rscm.context.client.ContextListenerActivity.java] instead of the [http://developer.android.com/reference/android/app/Activity.html android.app.Activity] class. The extended class is _abstract_ and requires the definition of two methods:
+  # {{{public String[] getRequestedScopes();}}}
+  # {{{public void onContextValueChanged(ContextValue contextValue);}}}
+
+The resulting code should look like this:
+{{{
+
+}}}
+
+== 3. 
