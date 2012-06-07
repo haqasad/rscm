@@ -121,4 +121,5 @@ public class MyContextAwareActivity extends ContextListenerActivity
             Toast.makeText(this, "Error while displaying context event: " + contextValue, Toast.LENGTH_SHORT).show();
         }
     }
-}}}}
+}
+}}}
