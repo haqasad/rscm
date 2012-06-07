@@ -49,24 +49,24 @@ public class MyContextAwareActivity extends ContextListenerActivity
 
 == 3. Realize the {{{getRequestedScopes()}}} method ===
 
-This method is used to define the scopes of the requested context types. In this example, let's just assume we are interested in the _user.activity_ scope. The code is edited as follows:
+This method is used to define the scopes of the requested context types. In this example, let's just assume we are interested in the _power.connected_ scope. The code is edited as follows:
 
 {{{
     @Override public String[] getRequestedScopes()
     {
-        return new String[] { "user.activity" };
+        return new String[] { "power.connected" };
     }
 }}}
 
 == 4. Realize the {{{onContextValueChanged()}}} callback method ===
 
-This callback method is automatically invoked by RSCM whenever there is a context change for any of the requested scopes. In this example, we simply display the received context value on the phone's display.
+This callback method is automatically invoked by RSCM whenever there is a context change for any of the requested scopes. In this example, we simply display the time along with received context value on the phone's display.
 {{{
     @Override public void onContextValueChanged(ContextValue contextValue)
     {
         try
         {
-            appendMessage(contextValue.getValueAsString());
+            appendMessage(new Date() + ":" + contextValue.getValueAsBoolean());
         }
         catch (JSONException jsone)
         {
@@ -75,7 +75,7 @@ This callback method is automatically invoked by RSCM whenever there is a contex
     }
 }}}
 
-The complete code, with a TextView for displaying the received context changes is illustrated below:
+The complete code, with a TextView for displaying the received context changes, is illustrated below:
 
 {{{
 package org.aspectsense.rscm.quickstart;
@@ -87,11 +87,13 @@ import org.aspectsense.rscm.ContextValue;
 import org.aspectsense.rscm.context.client.ContextListenerActivity;
 import org.json.JSONException;
 
+import java.util.Date;
+
 public class MyContextAwareActivity extends ContextListenerActivity
 {
     @Override public String[] getRequestedScopes()
     {
-        return new String[] { "user.activity" };
+        return new String[] { "power.connected" };
     }
 
     private TextView messageTextView;
@@ -114,7 +116,7 @@ public class MyContextAwareActivity extends ContextListenerActivity
     {
         try
         {
-            appendMessage(contextValue.getValueAsString());
+            appendMessage(new Date() + ":" + contextValue.getValueAsBoolean());
         }
         catch (JSONException jsone)
         {
