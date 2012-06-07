@@ -75,7 +75,7 @@ This callback method is automatically invoked by RSCM whenever there is a contex
     }
 }}}
 
-The complete code, with a TextView for displaying the received context changes, is illustrated below:
+The complete code, with a [http://developer.android.com/reference/android/widget/TextView.html TextView] for displaying the received context changes, is illustrated below:
 
 {{{
 package org.aspectsense.rscm.quickstart;
