@@ -47,4 +47,4 @@ public class MyContextAwareActivity extends ContextListenerActivity
 }
 }}}
 
-== 3. 
+== 3. Realize the {{{getRequestedScopes}}} method ===
