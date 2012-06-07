@@ -2,8 +2,13 @@
 
 = Introduction =
 
-Add your content here.
+The RSCM is a middleware for creating context-aware apps for ANDROID, using dynamically discovered components (i.e. context plugins)
 
+= Basics =
+
+The source code of the project includes a number of projects. The two most important are:
+  * *RSCM runtime*: This is the heart of the RSCM system. It must be installed on the target device and includes a service that runs in the background as needed. This app does not define a launcher activity, and thus it has no icon in the device's launcher (home) screen. The *RSCM runtime* is available directly from Play at: https://play.google.com/store/apps/details?id=org.aspectsense.rscm.runtime
+  * *RSCM library*: This is a library project that includes the code to be linked to by any other RSCM project. In principle, it is possible to use RSCM directly from your apps without using any of the *RSCM library* code (i.e. by binding to the *RSCM sruntime* ervice directly) but that would consist needless repetition.
 
 = Details =
 
