@@ -17,3 +17,9 @@ Just like when you use the core services for ANDROID for getting context data (s
 These steps are better illustrated with an example. This example creates a trivial app that simply displays the received context changes on the screen. Here are the required steps:
 
 == 1. Create a new project ==
+
+Using the IDE of your choice, create a new ANDROID project. Make sure that the project includes the _RSCM library_ as an external library.
+
+== 2. Create a context-aware Activity ==
+
+Create a new [http://developer.android.com/guide/topics/fundamentals/activities.html Activity]. Edit your activity so that it _extends_ the [http://code.google.com/p/rscm/source/browse/trunk/rscm-library/src/org/aspectsense/rscm/context/client/ContextListenerActivity.java org.aspectsense.rscm.context.client.ContextListenerActivity.java] instead of the [http://developer.android.com/reference/android/app/Activity.html android.app.Activity] class.
