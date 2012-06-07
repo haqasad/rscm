@@ -36,19 +36,36 @@ public class UserActivityReasoner extends ReasonerService
 
     public static final String SCOPE_USER_ACTIVITY = "user.activity";
 
+    public static final int BATTERY_LEVEL_UNKNOWN = -1;
+
+    private int previous_battery_level = BATTERY_LEVEL_UNKNOWN;
+
     @Override protected void onContextValueChanged(ContextValue contextValue)
     {
-        if("battery.level".equals(contextValue.getScope()))
+        try
         {
-            try
+            if("battery.level".equals(contextValue.getScope()))
             {
                 final int battery_level = contextValue.getValueAsInteger();
-                notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user holds a phone with " + battery_level + "% remaining battery level"));
+                if(previous_battery_level != BATTERY_LEVEL_UNKNOWN && previous_battery_level > battery_level)
+                {
+                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is discharging his phone"));
+                }
+                else if(previous_battery_level != BATTERY_LEVEL_UNKNOWN && previous_battery_level < battery_level)
+                {
+                    notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user is charging his phone"));
+                }
+                previous_battery_level = battery_level;
             }
-            catch (JSONException jsone)
+            else if("power.connected".equals(contextValue.getScope()))
             {
-                Log.e(TAG, "JSON exception while parsing context value: " + contextValue, jsone);
+                final boolean is_connected = contextValue.getValueAsBoolean();
+                notifyListener(ContextValue.createContextValue(SCOPE_USER_ACTIVITY, "The user has " + (is_connected ? "connected his phone to the charger" : "disconnected his phone from the charger")));
             }
+        }
+        catch (JSONException jsone)
+        {
+            Log.e(TAG, "JSON exception while parsing context value: " + contextValue, jsone);
         }
     }
 }
