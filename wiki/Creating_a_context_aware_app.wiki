@@ -83,6 +83,7 @@ package org.aspectsense.rscm.quickstart;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.aspectsense.rscm.ContextValue;
 import org.aspectsense.rscm.context.client.ContextListenerActivity;
 import org.json.JSONException;
