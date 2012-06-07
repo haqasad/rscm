@@ -65,3 +65,60 @@ The calls to the {{{registerReceiver(...)}}} and {{{unregisterReceiver(...)}}} m
 {{{
     public static final IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 }}}
+
+== 4. Create the context change events ==
+
+Once we get hold of the values we are interested in, we need to notify the RSCM middleware. As mentioned above, this is done via the {{{notifyListener}}} method. This method takes as parameter a context value, which means that we need to create it beforehand.
+
+The [http://code.google.com/p/rscm/source/browse/trunk/rscm-library/src/org/aspectsense/rscm/ContextValue.java ContextValue] requires as input the *scope* of the generated context value, and its actual value. For now, let's assume that the context value is a primitive one (i.e., boolean, integer, double, or String). For instance, the battery level is an integer in the range [0, 100]m which means that it can be constructed using the following code:
+
+{{{
+    public static final String SCOPE_BATTERY_LEVEL = "battery.level";
+    ...
+    final int level = ...;
+    final ContextValue lastContextValueBatteryLevel = ContextValue.createContextValue(SCOPE_BATTERY_LEVEL, level);
+
+}}}
+
+The complete code (available [http://code.google.com/p/rscm/source/browse/trunk/plugins/plugin-sensor-battery/src/org/aspectsense/rscm/sensor/battery/BatterySensor.java here]) is shown below:
+
+{{{
+public class BatterySensor extends SensorService
+{
+    public static final String TAG = "org.aspectsense.rscm.sensor.battery.BatterySensor";
+
+    public static final String SCOPE_BATTERY_LEVEL = "battery.level";
+
+    public static final IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+
+    @Override public IBinder onBind(Intent intent)
+    {
+        registerReceiver(batteryReceiver, filter);
+
+        return super.onBind(intent);
+    }
+
+    @Override public boolean onUnbind(Intent intent)
+    {
+        unregisterReceiver(batteryReceiver);
+
+        return super.onUnbind(intent);
+    }
+
+    final BroadcastReceiver batteryReceiver = new BroadcastReceiver()
+    {
+        int level = -1;
+
+        @Override public void onReceive(Context context, Intent intent)
+        {
+            level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
+            final ContextValue lastContextValueBatteryLevel = ContextValue.createContextValue(SCOPE_BATTERY_LEVEL, level);
+
+            notifyListener(lastContextValueBatteryLevel);
+        }
+    };
+}
+}}}
+
+== 5. Editing the manifest ==
