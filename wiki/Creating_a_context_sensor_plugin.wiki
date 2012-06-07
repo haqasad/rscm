@@ -33,3 +33,11 @@ public class BatterySensor extends SensorService
 }}}
 
 The _base class_ provides a protected method, that the implemented plugin must invoke in order to communicate the generated context values. The signature of this method is {{{ protected void notifyListener(final ContextValue contextValue); }}}
+
+== 3. Bind to the underlying context source ==
+
+Typically, context sensor plugins are _wrappers_ of underlying sensing functionality. For instance, the battery sensor plugin depends on ANDROID's own [http://developer.android.com/reference/android/os/BatteryManager.html BatteryManager].
+
+A properly behaving plugin should start monitoring the underlying context as soon as it is started (i.e. service is bound) and stop immediately before terminating (i.e. service is stopped). To realize this kind of behavior, the Service lifecycle is typically exploited. In particular, the following two methods are overriden with the purpose of controlling when to start/stop listening to context changes:
+  * {{{@Override public IBinder onBind(Intent intent);}}}
+  * {{{@Override public boolean onUnbind(Intent intent);}}}
