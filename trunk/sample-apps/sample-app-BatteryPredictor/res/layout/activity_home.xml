@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TableLayout
+            android:stretchColumns="*"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <Button
+                    android:id="@+id/start_stop_button"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <Button
+                    android:id="@+id/export_button"
+                    android:text="@string/Export"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <Button
+                    android:id="@+id/refresh_button"
+                    android:text="@string/Refresh"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <ListView
+            android:id="@+id/context_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</LinearLayout>

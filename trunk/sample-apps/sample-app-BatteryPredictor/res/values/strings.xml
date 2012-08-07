@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSCM: Battery predictor</string>
+    <string name="Start">Start</string>
+    <string name="Stop">Stop</string>
+    <string name="Export">Export</string>
+    <string name="Refresh">Refresh</string>
+    <string name="Battery_level">Battery level: </string>
+    <string name="Power_connected">Power connected: </string>
+    <string name="Latitude">Latitude: </string>
+    <string name="Longitude">Longitude: </string>
+    <string name="Coordinates">Coordinates: </string>
+    <string name="comma">,</string>
+</resources>
