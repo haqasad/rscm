@@ -37,8 +37,8 @@ public class DatabaseMetadata
     {
         private ContextValuesTableMetadata() { /* empty */ }
 
-        public static final int POWER_CONNECTED_FALSE   = 0x0;
-        public static final int POWER_CONNECTED_TRUE    = 0x1;
+        public static final int POWER_CONNECTED_FALSE   = 0;
+        public static final int POWER_CONNECTED_TRUE    = 1;
 
         public static final String TABLE_NAME = "context_values";
 

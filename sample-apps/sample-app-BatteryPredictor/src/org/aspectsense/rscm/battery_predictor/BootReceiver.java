@@ -36,7 +36,6 @@ public class BootReceiver extends BroadcastReceiver
 
     @Override public void onReceive(Context context, Intent intent)
     {
-        Log.d(TAG, "Booted!");
         Toast.makeText(context, "Booted! - " + intent, Toast.LENGTH_SHORT).show();
         context.startService(new Intent(context, BackgroundService.class));
     }

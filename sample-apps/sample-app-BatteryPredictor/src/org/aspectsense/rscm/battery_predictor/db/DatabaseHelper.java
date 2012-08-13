@@ -24,6 +24,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import org.achartengine.model.TimeSeries;
+import org.achartengine.model.XYSeries;
+
+import java.util.Date;
 
 import static org.aspectsense.rscm.battery_predictor.db.DatabaseMetadata.*;
 
@@ -84,6 +89,81 @@ public class DatabaseHelper
         return rowId;
     }
 
+    public XYSeries getBatterySeries()
+    {
+        final Cursor cursor = getContextValuesCursor(null, null, ContextValuesTableMetadata.TIMESTAMP + " ASC");
+
+        final int INDEX_BATTERY_LEVEL   = cursor.getColumnIndex(ContextValuesTableMetadata.BATTERY_LEVEL);
+        final int INDEX_TIMESTAMP       = cursor.getColumnIndex(ContextValuesTableMetadata.TIMESTAMP);
+
+        int lastBatteryLevel = -1;
+
+        final XYSeries xySeries = new TimeSeries("Battery level");
+
+        final int numOfEntries = cursor.getCount();
+        cursor.moveToFirst();
+Log.d(TAG, "timestamp: " + cursor.getLong(INDEX_TIMESTAMP) + " (" + new Date(cursor.getLong(INDEX_TIMESTAMP)) + ")");
+        for(int i = 0; i < numOfEntries; i++)
+        {
+            final int batteryLevel = cursor.getInt(INDEX_BATTERY_LEVEL);
+            if(batteryLevel != lastBatteryLevel)
+            {
+                lastBatteryLevel = batteryLevel;
+                final long timestamp = cursor.getLong(INDEX_TIMESTAMP);
+
+                xySeries.add(timestamp, batteryLevel);
+            }
+
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return xySeries;
+    }
+
+    public XYSeries getConnectivitySeries()
+    {
+        final Cursor cursor = getContextValuesCursor(null, null, ContextValuesTableMetadata.TIMESTAMP + " ASC");
+
+        final int INDEX_POWER_CONNECTED = cursor.getColumnIndex(ContextValuesTableMetadata.POWER_CONNECTED);
+        final int INDEX_TIMESTAMP       = cursor.getColumnIndex(ContextValuesTableMetadata.TIMESTAMP);
+
+        int lastPowerConnected = -1;
+
+        final XYSeries xySeries = new TimeSeries("Power connected");
+
+        final int numOfEntries = cursor.getCount();
+        cursor.moveToFirst();
+        for(int i = 0; i < numOfEntries; i++)
+        {
+            final int powerConnected = cursor.getInt(INDEX_POWER_CONNECTED);
+            final long timestamp = cursor.getLong(INDEX_TIMESTAMP);
+
+            if(lastPowerConnected == -1) // first entry
+            {
+Log.d(TAG, "timestamp: " + timestamp + " (" + new Date(timestamp) + "), lastPowerConnected: " + lastPowerConnected + ", powerConnected: " + powerConnected);
+                xySeries.add(timestamp, powerConnected == ContextValuesTableMetadata.POWER_CONNECTED_TRUE ? 100 : 1);
+            }
+            else if(powerConnected != lastPowerConnected)
+            {
+                xySeries.add(timestamp - 1, lastPowerConnected == ContextValuesTableMetadata.POWER_CONNECTED_TRUE ? 100 : 1);
+                xySeries.add(timestamp, powerConnected == ContextValuesTableMetadata.POWER_CONNECTED_TRUE ? 100 : 1);
+            }
+            else if(i == numOfEntries -1) // last entry
+            {
+                xySeries.add(timestamp, powerConnected == ContextValuesTableMetadata.POWER_CONNECTED_TRUE ? 100 : 1);
+            }
+
+            lastPowerConnected = powerConnected;
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return xySeries;
+    }
+
     public Cursor getContextValuesCursor()
     {
         return getContextValuesCursor(null, null, ContextValuesTableMetadata.TIMESTAMP + " DESC");
@@ -95,49 +175,4 @@ public class DatabaseHelper
 
         return database.query(ContextValuesTableMetadata.TABLE_NAME, ContextValuesTableMetadata.ALL_COLUMNS, selection, selectionArguments, null, null, orderBy);
     }
-
-//    public Vector<SyndicationFeedOwner> getFeedOwners(final String selection, final String orderBy)
-//    {
-//        final Vector<SyndicationFeedOwner> selectedFeedOwners = new Vector<SyndicationFeedOwner>();
-//
-//        final SQLiteDatabase database = databaseOpenHelper.getWritableDatabase();
-//        database.beginTransaction();
-//
-//        final Cursor cursor = database.query(FeedOwnersTableMetadata.TABLE_NAME, // table name
-//                FeedOwnersTableMetadata.ALL_COLUMNS, // select columns
-//                selection, // selection
-//                null, // selection arguments
-//                null, // group by
-//                null, // having
-//                orderBy); // order by
-//
-//        final int FEED_OWNER_ID_INDEX = cursor.getColumnIndex(FeedOwnersTableMetadata._ID);
-//        final int FEED_OWNER_TITLE_INDEX = cursor.getColumnIndex(FeedOwnersTableMetadata.TITLE);
-//        final int FEED_OWNER_LINK_INDEX = cursor.getColumnIndex(FeedOwnersTableMetadata.LINK);
-//        final int FEED_OWNER_ICON_INDEX = cursor.getColumnIndex(FeedOwnersTableMetadata.ICON);
-//        final int FEED_OWNER_ICON_URL_INDEX = cursor.getColumnIndex(FeedOwnersTableMetadata.ICON_URL);
-//
-//        cursor.moveToFirst();
-//
-//        final int numOfRecords = cursor.getCount();
-//        for (int i = 0; i < numOfRecords; i++)
-//        {
-//            final long id           = cursor.getLong(FEED_OWNER_ID_INDEX);
-//            final String title      = cursor.getString(FEED_OWNER_TITLE_INDEX);
-//            final String link       = cursor.getString(FEED_OWNER_LINK_INDEX);
-//            final String icon       = cursor.getString(FEED_OWNER_ICON_INDEX);
-//            final String icon_url   = cursor.getString(FEED_OWNER_ICON_URL_INDEX);
-//
-//            selectedFeedOwners.add(new SyndicationFeedOwner(id, title, icon, icon_url, link));
-//
-//            cursor.moveToNext();
-//        }
-//
-//        cursor.close();
-//
-//        database.setTransactionSuccessful();
-//        database.endTransaction();
-//
-//        return selectedFeedOwners;
-//    }
 }
