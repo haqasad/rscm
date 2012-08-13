@@ -70,7 +70,7 @@ public class BackgroundService extends Service
     public void onContextValueChanged(ContextValue contextValue)
     {
         // insert in DB
-        Toast.makeText(this, "New context value!\n" + contextValue, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "New context value!\n" + contextValue, Toast.LENGTH_SHORT).show();
 
         final long timestamp = System.currentTimeMillis();
 

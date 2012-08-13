@@ -4,12 +4,20 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.XYChart;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.aspectsense.rscm.battery_predictor.db.DatabaseHelper;
 
 import static org.aspectsense.rscm.battery_predictor.db.DatabaseMetadata.ContextValuesTableMetadata;
@@ -59,6 +67,25 @@ public class ActivityHome extends Activity
                 updateListView();
             }
         });
+
+        exportButton = (Button) findViewById(R.id.export_button);
+        exportButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                //todo
+                Toast.makeText(ActivityHome.this, "TODO", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.graph_button).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                startActivity(new Intent(ActivityHome.this, ActivityGraph.class));
+            }
+        });
+
         contextListView = (ListView) findViewById(R.id.context_list_view);
     }
 
