@@ -4,20 +4,12 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.chart.XYChart;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.aspectsense.rscm.battery_predictor.db.DatabaseHelper;
 
 import static org.aspectsense.rscm.battery_predictor.db.DatabaseMetadata.ContextValuesTableMetadata;
@@ -106,8 +98,7 @@ public class ActivityHome extends Activity
                 R.layout.view_context_value,
                 contextValuesCursor,
                 new String[] {ContextValuesTableMetadata.TIMESTAMP, ContextValuesTableMetadata.BATTERY_LEVEL, ContextValuesTableMetadata.POWER_CONNECTED, ContextValuesTableMetadata.LATITUDE, ContextValuesTableMetadata.LONGITUDE},
-                new int[] { R.id.view_context_value_timestamp, R.id.view_context_value_battery_level, R.id.view_context_value_power_connected, R.id.view_context_value_latitude, R.id.view_context_value_longitude},
-                SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new int[] { R.id.view_context_value_timestamp, R.id.view_context_value_battery_level, R.id.view_context_value_power_connected, R.id.view_context_value_latitude, R.id.view_context_value_longitude});
 
         contextListView.setAdapter(simpleCursorAdapter);
     }

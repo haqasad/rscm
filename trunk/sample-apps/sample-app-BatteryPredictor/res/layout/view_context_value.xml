@@ -29,12 +29,12 @@
     <TextView
             android:id="@+id/view_context_value_timestamp"
             android:textStyle="bold"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
         <TextView
@@ -45,14 +45,14 @@
 
         <TextView
                 android:id="@+id/view_context_value_battery_level"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
         <TextView
@@ -63,14 +63,14 @@
 
         <TextView
                 android:id="@+id/view_context_value_power_connected"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
         <TextView
@@ -92,7 +92,7 @@
 
         <TextView
                 android:id="@+id/view_context_value_longitude"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
