@@ -117,17 +117,17 @@ public class BackgroundService extends Service
     @Override public int onStartCommand(Intent intent, int flags, int startId)
     {
         Log.d(TAG, "Starting service: " + intent);
-        Toast.makeText(this, "Starting service: " + intent, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Starting service: " + intent, Toast.LENGTH_SHORT).show();
 
         databaseHelper = DatabaseHelper.getDatabaseHelper(this);
 
         // initialize the context
         lastBatteryLevel = getBatteryLevel();
         lastPowerConnected = isConnected(this) ? ContextValuesTableMetadata.POWER_CONNECTED_TRUE : ContextValuesTableMetadata.POWER_CONNECTED_FALSE;
-        final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        final Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        lastLat = location != null ? location.getLatitude() : -1d;
-        lastLng = location != null ? location.getLongitude() : -1d;
+//        final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        final Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+//        lastLat = location != null ? location.getLatitude() : -1d;
+//        lastLng = location != null ? location.getLongitude() : -1d;
 
         databaseHelper.insert(System.currentTimeMillis(), lastBatteryLevel, lastPowerConnected, lastLat, lastLng);
 
