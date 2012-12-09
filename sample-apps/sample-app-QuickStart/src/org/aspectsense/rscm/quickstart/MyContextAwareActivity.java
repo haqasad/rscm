@@ -11,9 +11,12 @@ import java.util.Date;
 
 public class MyContextAwareActivity extends ContextListenerActivity
 {
+    public static final String BATTERY_LEVEL = "battery.level";
+    public static final String POWER_CONNECTED = "power.connected";
+
     @Override public String[] getRequestedScopes()
     {
-        return new String[] { "battery.level" };
+        return new String[] { BATTERY_LEVEL, POWER_CONNECTED };
     }
 
     private TextView messageTextView;
@@ -36,7 +39,16 @@ public class MyContextAwareActivity extends ContextListenerActivity
     {
         try
         {
-            appendMessage(new Date() + ": The battery level is " + contextValue.getValueAsInteger() + "%");
+            if(BATTERY_LEVEL.equals(contextValue.getScope()))
+            {
+                int batteryLevel = contextValue.getValueAsInteger();
+                appendMessage(new Date() + ": The battery level is " + batteryLevel + "%");
+            }
+            else if(POWER_CONNECTED.equals(contextValue.getScope()))
+            {
+                boolean connected = contextValue.getValueAsBoolean();
+                appendMessage(new Date() + ": The power status is " + (connected ? "connected" : "disconnected"));
+            }
         }
         catch (JSONException jsone)
         {
