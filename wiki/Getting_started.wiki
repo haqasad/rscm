@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This page will guide you into creating a context-aware app for ANDROID using the RSCM middleware.
+This page guides you into creating a context-aware app for ANDROID using the RSCM middleware.
 
 = Basics =
 
