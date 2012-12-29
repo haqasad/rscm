@@ -18,6 +18,9 @@
   ~ If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
-    <string name="app_name">RSCM plugin: wifi connectivity</string>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/transparent" />
+    <padding android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp" />
+    <stroke android:color="@android:color/holo_blue_bright" android:width="2dip"/>
+    <!--<gradient android:centerColor="#00000000"/>-->
+</shape>

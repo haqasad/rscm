@@ -709,7 +709,7 @@ public class ContextService extends Service
                             }
                             catch (RemoteException re)
                             {
-                                Log.e(TAG, "RemotedException while handling context value change event", re);
+                                Log.e(TAG, "RemoteException while handling context value change event", re);
                             }
                         }
                     }

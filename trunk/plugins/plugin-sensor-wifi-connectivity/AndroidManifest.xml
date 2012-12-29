@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Really Simple Context Middleware (RCSM)
+  ~
+  ~ Copyright (c) 2012 The RCSM Team
+  ~
+  ~ This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+  ~ is available at: http://code.google.com/p/rscm
+  ~
+  ~ The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
+  ~ later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  ~ details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License along with this software.
+  ~ If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.aspectsense.rscm.sensor.wifi_connectivity">
+          package="org.aspectsense.rscm.sensor.wifi_connectivity"
+          android:versionCode="1"
+          android:versionName="0.2.1">
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"/>
 
