@@ -1,12 +1,12 @@
 /*
- * Really Simple Context Middleware (RCSM)
+ * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RCSM Team
+ * Copyright (c) 2012 The RSCM Team
  *
- * This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+ * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
  *
- * The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+ * The RSCM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
  * later version.
  *
@@ -35,6 +35,7 @@ import java.util.*;
 import org.aspectsense.rscm.*;
 import org.aspectsense.rscm.context.Intents;
 import org.aspectsense.rscm.context.plugin.PluginServiceConnection;
+import org.aspectsense.rscm.runtime.db.DatabaseHelper;
 
 
 /**
@@ -81,7 +82,9 @@ public class ContextService extends Service
 
     private void updateDatabase(final String scope, final ContextValue contextValue)
     {
-        // todo insert in DB?
+        // insert in DB?
+        final DatabaseHelper databaseHelper = DatabaseHelper.getDatabaseHelper(ContextService.this);
+        databaseHelper.insert(contextValue);
     }
 
     private PackageManager packageManager;
@@ -158,6 +161,7 @@ public class ContextService extends Service
     {
         @Override public void requestContextUpdates(final String scope, final IContextListener contextListener) throws RemoteException
         {
+Log.d(TAG, scope + " requested by " + contextListener);
             if(scope == null) throw new RemoteException("Invalid null value for scope");
             if(contextListener == null) throw new RemoteException("Invalid null value for contextListener");
 
@@ -191,6 +195,11 @@ public class ContextService extends Service
         {
             removeContextListener(scope, contextListener);
             activatePlugins();
+        }
+
+        @Override public ContextValue getLastContextValue(String scope) throws RemoteException
+        {
+            return DatabaseHelper.getDatabaseHelper(ContextService.this).getLatestValue(scope);
         }
     };
 
@@ -591,6 +600,26 @@ public class ContextService extends Service
         @Override public boolean isInstalled(String scope) throws RemoteException
         {
             return providedScopesToPlugins.containsKey(scope);
+        }
+
+        @Override public boolean isActivePlugin(String packageName) throws RemoteException
+        {
+            for(final PluginRecord activePlugin : activePlugins)
+            {
+                if(activePlugin.getPackageName().equals(packageName)) return true;
+            }
+
+            return false;
+        }
+
+        @Override public boolean isResolvedPlugin(String packageName) throws RemoteException
+        {
+            for(final PluginRecord resolvedPlugin : resolvedPlugins)
+            {
+                if(resolvedPlugin.getPackageName().equals(packageName)) return true;
+            }
+
+            return false;
         }
 
         @Override public List<PluginRecord> getInstalledPlugins() throws RemoteException
