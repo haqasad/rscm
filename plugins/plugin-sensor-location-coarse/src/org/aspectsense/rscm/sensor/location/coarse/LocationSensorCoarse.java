@@ -1,12 +1,12 @@
 /*
- * Really Simple Context Middleware (RCSM)
+ * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RCSM Team
+ * Copyright (c) 2012 The RSCM Team
  *
- * This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+ * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
  *
- * The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+ * The RSCM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
  * later version.
  *
@@ -47,8 +47,8 @@ public class LocationSensorCoarse extends SensorService implements LocationListe
         this.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
-    public static final long MIN_TIME = 10000L;  // 10 seconds
-    public static final float MIN_DISTANCE = 10; // 10 meters
+    public static final long MIN_TIME = 600000L;  // 10 minutes
+    public static final float MIN_DISTANCE = 100; // 100 meters
 
     @Override public IBinder onBind(Intent intent)
     {
