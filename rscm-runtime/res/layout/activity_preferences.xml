@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Really Simple Context Middleware (RSCM)
   ~
-  ~ Copyright (c) 2012 The RSCM Team
+  ~ Copyright (c) 2013 The RSCM Team
   ~
   ~ This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
   ~ is available at: http://code.google.com/p/rscm
@@ -19,13 +20,27 @@
   ~ If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
-    <string name="app_name">RSCM runtime</string>
-    <string name="RSCM">RSCM</string>
-    <string name="RSCM_Preferences">RSCM Preferences</string>
-    <string name="RSCM_Plugin_viewer">RSCM Plugin viewer</string>
-    <string name="RSCM_Database_viewer">RSCM Database viewer</string>
-    <string name="Refresh">Refresh</string>
-    <string name="Activate">Activate</string>
-    <string name="Deactivate">Deactivate</string>
-</resources>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/button_show_plugins_viewer"
+                android:text="@string/RSCM_Plugin_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/button_show_database_viewer"
+                android:text="@string/RSCM_Database_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</ScrollView>
