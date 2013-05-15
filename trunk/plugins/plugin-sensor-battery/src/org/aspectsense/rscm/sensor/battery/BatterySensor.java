@@ -1,12 +1,12 @@
 /*
- * Really Simple Context Middleware (RCSM)
+ * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RCSM Team
+ * Copyright (c) 2012 The RSCM Team
  *
- * This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+ * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
  *
- * The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+ * The RSCM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
  * later version.
  *
@@ -63,26 +63,36 @@ public class BatterySensor extends SensorService
 
     final BroadcastReceiver batteryReceiver = new BroadcastReceiver()
     {
-        int scale = -1;
-        int level = -1;
-        int voltage = -1;
-        int temp = -1;
+        int oldLevel = -1;
+        int oldVoltage = -1;
+        int oldTemp = -1;
 
         @Override public void onReceive(Context context, Intent intent)
         {
-            level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-            temp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
-            voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
-            Log.d(TAG, "level is " + level + " / " + scale + ", temperature is " + temp + ", voltage is " + voltage);
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int temp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+            int voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
 
-            final ContextValue lastContextValueBatteryLevel = ContextValue.createContextValue(SCOPE_BATTERY_LEVEL, level);
-            final ContextValue lastContextValueBatteryVoltage = ContextValue.createContextValue(SCOPE_BATTERY_VOLTAGE, voltage);
-            final ContextValue lastContextValueBatteryTemp = ContextValue.createContextValue(SCOPE_BATTERY_TEMP, temp);
+            if(level != oldLevel)
+            {
+                final ContextValue lastContextValueBatteryLevel = ContextValue.createContextValue(SCOPE_BATTERY_LEVEL, level);
+                notifyListener(lastContextValueBatteryLevel);
+                oldLevel = level;
+            }
 
-            notifyListener(lastContextValueBatteryLevel);
-            notifyListener(lastContextValueBatteryTemp);
-            notifyListener(lastContextValueBatteryVoltage);
+            if(Math.abs(voltage - oldVoltage) > 100)
+            {
+                final ContextValue lastContextValueBatteryVoltage = ContextValue.createContextValue(SCOPE_BATTERY_VOLTAGE, voltage);
+                notifyListener(lastContextValueBatteryVoltage);
+                oldVoltage = voltage;
+            }
+
+            if(Math.abs(temp - oldTemp) > 10)
+            {
+                final ContextValue lastContextValueBatteryTemp = ContextValue.createContextValue(SCOPE_BATTERY_TEMP, temp);
+                notifyListener(lastContextValueBatteryTemp);
+                oldTemp = temp;
+            }
         }
     };
 }
