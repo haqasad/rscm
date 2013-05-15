@@ -1,12 +1,12 @@
 /*
- * Really Simple Context Middleware (RCSM)
+ * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RCSM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
- * This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+ * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
  *
- * The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+ * The RSCM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
  * later version.
  *
@@ -38,6 +38,8 @@ import java.util.Date;
  */
 public class ContextValue implements IContextValue, Parcelable
 {
+    public static final String SOURCE_PACKAGE_NAME_UNKNOWN = "unknown_package_name";
+
     private final long creationTimestamp;
     private final String scope;
     private final String sourcePackageName;
@@ -48,7 +50,7 @@ public class ContextValue implements IContextValue, Parcelable
         this(new Date().getTime(), scope, SensorService.PACKAGE_NAME, valueAsJSONString);
     }
 
-    private ContextValue(final long creationTimestamp, final String scope, final String sourcePackageName, final String valueAsJSONString)
+    public ContextValue(final long creationTimestamp, final String scope, final String sourcePackageName, final String valueAsJSONString)
     {
         this.creationTimestamp = creationTimestamp;
         this.scope = scope;

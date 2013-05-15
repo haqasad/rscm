@@ -11,6 +11,10 @@ interface IContextManagement
 
     boolean isInstalled(in String scope);
 
+    boolean isActivePlugin(in String packageName);
+
+    boolean isResolvedPlugin(in String packageName);
+
     List<PluginRecord> getInstalledPlugins();
 
     void requestContextManagementUpdates(in IContextManagementListener contextManagementListener);

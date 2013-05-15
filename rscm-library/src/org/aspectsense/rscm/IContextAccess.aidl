@@ -8,4 +8,6 @@ interface IContextAccess
     void requestContextUpdates(in String scope, in IContextListener contextListener);
 
     void removeContextUpdates(in String scope, in IContextListener contextListener);
+
+    ContextValue getLastContextValue(in String scope);
 }
