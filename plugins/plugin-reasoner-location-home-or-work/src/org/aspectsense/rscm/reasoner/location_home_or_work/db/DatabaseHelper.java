@@ -1,7 +1,7 @@
 /*
  * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2013 The RSCM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
  * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
@@ -86,6 +86,21 @@ public class DatabaseHelper
         return rowId;
     }
 
+    public Coordinates [] getCoordinates(final long fromTimestamp)
+    {
+        final SQLiteDatabase database = databaseOpenHelper.getReadableDatabase();
+        final Cursor cursor = database.query(
+                CoordinatesTableMetadata.TABLE_NAME,
+                CoordinatesTableMetadata.ALL_COLUMNS,
+                CoordinatesTableMetadata.TIMESTAMP + ">=?",
+                new String[]{Long.toString(fromTimestamp)},
+                null,
+                null,
+                CoordinatesTableMetadata.TIMESTAMP + " DESC");
+
+        return getCoordinates(cursor);
+    }
+
     public Coordinates [] getCoordinates(final long fromTimestamp, final long toTimestamp)
     {
         final SQLiteDatabase database = databaseOpenHelper.getReadableDatabase();
@@ -96,8 +111,13 @@ public class DatabaseHelper
                 new String[]{Long.toString(fromTimestamp), Long.toString(toTimestamp)},
                 null,
                 null,
-                null);
+                CoordinatesTableMetadata.TIMESTAMP + " DESC");
 
+        return getCoordinates(cursor);
+    }
+
+    private Coordinates [] getCoordinates(final Cursor cursor)
+    {
         final int INDEX_TIMESTAMP = cursor.getColumnIndex(CoordinatesTableMetadata.TIMESTAMP);
         final int INDEX_WHERE     = cursor.getColumnIndex(CoordinatesTableMetadata.WHERE);
         final int INDEX_LATITUDE  = cursor.getColumnIndex(CoordinatesTableMetadata.LATITUDE);
