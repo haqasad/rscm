@@ -1,7 +1,7 @@
 /*
  * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RSCM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
  * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
@@ -728,6 +728,7 @@ Log.d(TAG, scope + " requested by " + contextListener);
 
                     // notify registered scopesToListeners
                     final Set<IContextListener> scopeListeners = scopesToListeners.get(scope);
+                    final Set<IContextListener> deadListeners = new HashSet<IContextListener>();
                     if(scopeListeners != null)
                     {
                         for(final IContextListener scopeListener : scopeListeners)
@@ -736,11 +737,22 @@ Log.d(TAG, scope + " requested by " + contextListener);
                             {
                                 scopeListener.onContextValueChanged(contextValue);
                             }
+                            catch (DeadObjectException doe)
+                            {
+                                // todo
+                                deadListeners.add(scopeListener);
+                                Log.e(TAG, "DeadObjectException while handling context value change event", doe);
+                            }
                             catch (RemoteException re)
                             {
                                 Log.e(TAG, "RemoteException while handling context value change event", re);
                             }
                         }
+                    }
+                    // unbind dead context listeners
+                    for(final IContextListener deadContextListener : deadListeners)
+                    {
+                        removeContextListener(scope, deadContextListener);
                     }
                 }
             }).start();

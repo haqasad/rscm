@@ -3,7 +3,7 @@
 <!--
   ~ Really Simple Context Middleware (RSCM)
   ~
-  ~ Copyright (c) 2013 The RSCM Team
+  ~ Copyright (c) 2012-2013 The RSCM Team
   ~
   ~ This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
   ~ is available at: http://code.google.com/p/rscm
@@ -32,12 +32,21 @@
         <Button
                 android:id="@+id/button_show_plugins_viewer"
                 android:text="@string/RSCM_Plugin_viewer"
+                android:layout_margin="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         <Button
                 android:id="@+id/button_show_database_viewer"
                 android:text="@string/RSCM_Database_viewer"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/button_show_context_emulator"
+                android:text="@string/RSCM_Context_emulator"
+                android:layout_margin="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

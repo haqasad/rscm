@@ -1,7 +1,7 @@
 /*
  * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2013 The RSCM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
  * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
@@ -54,6 +54,15 @@ public class ActivityPreferences extends Activity
             @Override public void onClick(View v)
             {
                 startActivity(new Intent(ActivityPreferences.this, ActivityDatabaseViewer.class));
+            }
+        });
+
+        Button showContextEmulator = (Button) findViewById(R.id.button_show_context_emulator);
+        showContextEmulator.setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                startActivity(new Intent(ActivityPreferences.this, ActivityContextEmulator.class));
             }
         });
     }

@@ -1,7 +1,7 @@
 /*
  * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2013 The RSCM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
  * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
@@ -100,9 +100,6 @@ public class DatabaseHelper
         return rowId;
     }
 
-    private final String SELECT_LAST_SCOPE = "SELECT * FROM " + ContextValuesTableMetadata.TABLE_NAME +
-            " WHERE " + ContextValuesTableMetadata.TABLE_NAME + "." + ContextValuesTableMetadata.TIMESTAMP + " = (SELECT MAX(" + ContextValuesTableMetadata.TABLE_NAME + "." + ContextValuesTableMetadata.TIMESTAMP + ") FROM " + ContextValuesTableMetadata.TABLE_NAME + ")";
-
     /**
      * Returns the latest {@link ContextValue} (based on the timestamp) for the given scope.
      * This method first checks the cache, and if a value is not available in it, it fetches it from the database (and
@@ -128,10 +125,14 @@ public class DatabaseHelper
                 cache.put(scope, databaseContextValue);
             }
 
-            // this might be null, which signifies that no such value exists in the cache or in the database
+            // this might be null, which signifies that no such value exists in the cache and in the database
             return databaseContextValue;
         }
     }
+
+    private final String SELECT_LAST_SCOPE = "SELECT * FROM " + ContextValuesTableMetadata.TABLE_NAME +
+            " WHERE " + ContextValuesTableMetadata.SCOPE + "=? AND " + ContextValuesTableMetadata.TIMESTAMP + " = " +
+            "(SELECT MAX(" + ContextValuesTableMetadata.TIMESTAMP + ") FROM " + ContextValuesTableMetadata.TABLE_NAME + " WHERE " + ContextValuesTableMetadata.SCOPE + "=?)";
 
     /**
      * Returns the latest {@link ContextValue} (based on the timestamp) for the given scope from the database.
@@ -142,7 +143,7 @@ public class DatabaseHelper
     public ContextValue getLatestValueFromDatabase(final String scope)
     {
         final SQLiteDatabase database = databaseOpenHelper.getReadableDatabase();
-        final Cursor cursor = database.rawQuery(SELECT_LAST_SCOPE, null);
+        final Cursor cursor = database.rawQuery(SELECT_LAST_SCOPE, new String [] {scope, scope} );
 
         final int INDEX_TIMESTAMP       = cursor.getColumnIndex(ContextValuesTableMetadata.TIMESTAMP);
         final int INDEX_VALUE_AS_JSON   = cursor.getColumnIndex(ContextValuesTableMetadata.VALUE_AS_JSON);
