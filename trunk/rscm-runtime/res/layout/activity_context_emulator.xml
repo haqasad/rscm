@@ -22,12 +22,32 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <ListView
-            android:id="@+id/main_list_view"
+    <Spinner
+            android:id="@+id/activity_context_emulator_scope_selector"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </Spinner>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Context_value_JSON"
+            android:id="@+id/Context_value"
+            android:layout_margin="8dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:padding="8dp"/>
+
+    <EditText
+            android:id="@+id/activity_context_emulator_value"
+            android:inputType="text"
+            android:textSize="18dp"
+            android:layout_margin="8dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />

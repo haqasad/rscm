@@ -2,7 +2,7 @@
 <!--
   ~ Really Simple Context Middleware (RSCM)
   ~
-  ~ Copyright (c) 2012 The RSCM Team
+  ~ Copyright (c) 2012-2013 The RSCM Team
   ~
   ~ This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
   ~ is available at: http://code.google.com/p/rscm
@@ -25,7 +25,9 @@
     <string name="RSCM_Preferences">RSCM Preferences</string>
     <string name="RSCM_Plugin_viewer">RSCM Plugin viewer</string>
     <string name="RSCM_Database_viewer">RSCM Database viewer</string>
+    <string name="RSCM_Context_emulator">RSCM Context emulator</string>
     <string name="Refresh">Refresh</string>
     <string name="Activate">Activate</string>
     <string name="Deactivate">Deactivate</string>
+    <string name="Context_value_JSON">Context value (JSON)</string>
 </resources>
