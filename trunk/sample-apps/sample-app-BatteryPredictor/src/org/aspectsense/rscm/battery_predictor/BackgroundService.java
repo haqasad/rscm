@@ -1,12 +1,12 @@
 /*
- * Really Simple Context Middleware (RCSM)
+ * Really Simple Context Middleware (RSCM)
  *
- * Copyright (c) 2012 The RCSM Team
+ * Copyright (c) 2012-2013 The RSCM Team
  *
- * This file is part of the RCSM: the Really Simple Context Middleware for ANDROID. More information about the project
+ * This file is part of the RSCM: the Really Simple Context Middleware for ANDROID. More information about the project
  * is available at: http://code.google.com/p/rscm
  *
- * The RCSM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+ * The RSCM is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any
  * later version.
  *
@@ -22,8 +22,6 @@ package org.aspectsense.rscm.battery_predictor;
 
 import android.app.Service;
 import android.content.*;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.*;
 import android.util.Log;
 import android.widget.Toast;
@@ -47,12 +45,12 @@ public class BackgroundService extends Service
 
     public static final String BATTERY_LEVEL = "battery.level";
     public static final String POWER_CONNECTED = "power.connected";
-    public static final String LOCATION_FINE = "location.fine";
+    public static final String LOCATION_BACKGROUND = "location.background";
 
     public static final String [] REQUESTED_SCOPES = new String[] {
             BATTERY_LEVEL,
             POWER_CONNECTED,
-            LOCATION_FINE
+            LOCATION_BACKGROUND
     };
 
     private String [] getRequestedScopes()
@@ -64,8 +62,8 @@ public class BackgroundService extends Service
 
     private int lastBatteryLevel = -1;
     private int lastPowerConnected = -1;
-    private double lastLat = -1f;
-    private double lastLng = -1f;
+    private double lastLat = Double.NaN;
+    private double lastLng = Double.NaN;
 
     public void onContextValueChanged(ContextValue contextValue)
     {
@@ -94,7 +92,7 @@ public class BackgroundService extends Service
                     databaseHelper.insert(timestamp, lastBatteryLevel, lastPowerConnected, lastLat, lastLng);
                 }
             }
-            else if(LOCATION_FINE.equals(contextValue.getScope()))
+            else if(LOCATION_BACKGROUND.equals(contextValue.getScope()))
             {
                 final String valueAsJSON = contextValue.getValueAsString();
                 final JSONObject jsonObject = new JSONObject(valueAsJSON);
