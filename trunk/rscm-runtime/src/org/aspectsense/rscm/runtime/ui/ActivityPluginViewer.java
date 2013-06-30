@@ -36,7 +36,7 @@ import org.aspectsense.rscm.runtime.R;
 import java.util.List;
 import java.util.Vector;
 
-public class ActivityPluginViewer extends Activity
+public class ActivityPluginViewer extends Activity implements ContextAccessAndManagementPortal
 {
     public static final String TAG = "org.aspectsense.rscm.viewer.ActivityPluginViewer";
 
@@ -69,6 +69,16 @@ public class ActivityPluginViewer extends Activity
 
     private IContextManagement contextManagement;
     private IContextAccess contextAccess;
+
+    @Override public IContextAccess getContextAccess()
+    {
+        return contextAccess;
+    }
+
+    @Override public IContextManagement getContextManagement()
+    {
+        return contextManagement;
+    }
 
     private IContextManagementListener contextManagementListener = new IContextManagementListener.Stub()
     {
@@ -119,28 +129,28 @@ public class ActivityPluginViewer extends Activity
         plugins.clear();
         plugins.addAll(pluginRecords);
         Toast.makeText(this, "Connected (" + pluginRecords.size() + " plugins)", Toast.LENGTH_SHORT).show();
-        listView.setAdapter(new PluginListAdapter(this, plugins, contextAccess, contextManagement));
+        listView.setAdapter(new PluginListAdapter(this, plugins, this));
     }
 
     private void onDisconnection()
     {
         plugins.clear();
         Toast.makeText(this, "Disconnected", Toast.LENGTH_SHORT).show();
-        listView.setAdapter(new PluginListAdapter(this, plugins, contextAccess, contextManagement));
+        listView.setAdapter(new PluginListAdapter(this, plugins, this));
     }
 
     private void onPluginInstalled(final PluginRecord pluginRecord)
     {
         Toast.makeText(this, "Installed: " + pluginRecord.getPackageName(), Toast.LENGTH_SHORT).show();
         plugins.add(pluginRecord);
-        listView.setAdapter(new PluginListAdapter(this, plugins, contextAccess, contextManagement));
+        listView.setAdapter(new PluginListAdapter(this, plugins, this));
     }
 
     private void onPluginUninstalled(final PluginRecord pluginRecord)
     {
         Toast.makeText(this, "Uninstalled: " + pluginRecord.getPackageName(), Toast.LENGTH_SHORT).show();
         plugins.remove(pluginRecord);
-        listView.setAdapter(new PluginListAdapter(this, plugins, contextAccess, contextManagement));
+        listView.setAdapter(new PluginListAdapter(this, plugins, this));
     }
 
     /**

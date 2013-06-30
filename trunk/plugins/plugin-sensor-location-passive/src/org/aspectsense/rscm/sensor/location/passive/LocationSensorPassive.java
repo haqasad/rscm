@@ -37,7 +37,7 @@ import org.aspectsense.rscm.context.plugin.SensorService;
  */
 public class LocationSensorPassive extends SensorService implements LocationListener
 {
-    public static final String TAG = "org.aspectsense.rscm.sensor.location.fine.LocationSensorPassove";
+    public static final String TAG = "org.aspectsense.rscm.sensor.location.fine.LocationSensorPassive";
 
     public static final String SCOPE_LOCATION_PASSIVE = "location.passive";
 

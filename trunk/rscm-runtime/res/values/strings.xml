@@ -30,4 +30,5 @@
     <string name="Activate">Activate</string>
     <string name="Deactivate">Deactivate</string>
     <string name="Context_value_JSON">Context value (JSON)</string>
+    <string name="Submit">Submit</string>
 </resources>

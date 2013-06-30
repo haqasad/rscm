@@ -20,20 +20,30 @@
   ~ If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <Spinner
             android:id="@+id/activity_context_emulator_scope_selector"
+            android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
     </Spinner>
 
+    <Button
+            android:id="@+id/activity_context_emulator_button_submit"
+            android:text="@string/Submit"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     <TextView
+            android:layout_below="@id/activity_context_emulator_scope_selector"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/Context_value_JSON"
@@ -44,6 +54,8 @@
             android:padding="8dp"/>
 
     <EditText
+            android:layout_below="@id/Context_value"
+            android:layout_above="@id/activity_context_emulator_button_submit"
             android:id="@+id/activity_context_emulator_value"
             android:inputType="text"
             android:textSize="18dp"
@@ -52,4 +64,4 @@
             android:layout_height="wrap_content"
             />
 
-</LinearLayout>
+</RelativeLayout>

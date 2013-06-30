@@ -76,6 +76,7 @@ public class BackgroundService extends Service
         {
             if(BATTERY_LEVEL.equals(contextValue.getScope()))
             {
+                Toast.makeText(this, 1, Toast.LENGTH_SHORT).show();
                 final int newBatteryLevel = contextValue.getValueAsInteger();
                 if(newBatteryLevel != lastBatteryLevel)
                 {
