@@ -10,15 +10,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.*;
 import org.aspectsense.rscm.*;
 import org.aspectsense.rscm.runtime.R;
 import org.aspectsense.rscm.runtime.db.DatabaseHelper;
-
-import java.util.List;
 
 /**
  * User: Nearchos Paspallis
@@ -31,6 +26,7 @@ public class ActivityContextEmulator extends Activity
 
     private Spinner scopeSelector;
     private EditText valueEditText;
+    private Button submitButton;
 
     DatabaseHelper databaseHelper;
 
@@ -43,6 +39,7 @@ public class ActivityContextEmulator extends Activity
 
         scopeSelector = (Spinner) findViewById(R.id.activity_context_emulator_scope_selector);
         valueEditText = (EditText) findViewById(R.id.activity_context_emulator_value);
+        submitButton = (Button) findViewById(R.id.activity_context_emulator_button_submit);
     }
 
     private String [] scopes;
@@ -64,6 +61,14 @@ public class ActivityContextEmulator extends Activity
             @Override public void onNothingSelected(AdapterView<?> parent)
             {
                 // nothing
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                //todo
             }
         });
     }

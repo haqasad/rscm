@@ -36,6 +36,7 @@ import org.aspectsense.rscm.IContextManagement;
 import org.aspectsense.rscm.PluginRecord;
 import org.aspectsense.rscm.runtime.R;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,17 +53,52 @@ public class PluginListAdapter extends BaseAdapter
     private final Context context;
     private final List<PluginRecord> pluginRecords;
 
-    private final IContextAccess contextAccess;
-    private final IContextManagement contextManagement;
+    private final ContextAccessAndManagementPortal contextAccessAndManagementPortal;
 
-    public PluginListAdapter(final Context context, final List<PluginRecord> pluginRecords, final IContextAccess contextAccess, final IContextManagement contextManagement)
+    public PluginListAdapter(final Context context, final List<PluginRecord> pluginRecords, final ContextAccessAndManagementPortal contextAccessAndManagementPortal)
     {
         this.context = context;
         this.pluginRecords = pluginRecords;
-        this.contextAccess = contextAccess;
-        this.contextManagement = contextManagement;
+
+        this.contextAccessAndManagementPortal = contextAccessAndManagementPortal;
 
         this.packageManager = context.getPackageManager();
+    }
+
+    private boolean isActivePlugin(final String packageName)
+    {
+        final IContextManagement contextManagement = contextAccessAndManagementPortal.getContextManagement();
+        if(contextManagement != null)
+        {
+            try
+            {
+                return contextManagement.isActivePlugin(packageName);
+            }
+            catch (RemoteException re)
+            {
+                Log.e(TAG, re.getMessage(), re);
+            }
+        }
+
+        return false;
+    }
+
+    private ContextValue getLastContextValue(final String scope)
+    {
+        final IContextAccess contextAccess = contextAccessAndManagementPortal.getContextAccess();
+        if(contextAccess != null)
+        {
+            try
+            {
+                return contextAccess.getLastContextValue(scope);
+            }
+            catch (RemoteException re)
+            {
+                Log.e(TAG, re.getMessage(), re);
+            }
+        }
+
+        return null;
     }
 
     @Override public int getCount()
@@ -156,15 +192,8 @@ public class PluginListAdapter extends BaseAdapter
         }
 
         {
-            try
-            {
-                final boolean isActive = contextManagement.isActivePlugin(pluginRecord.getPackageName());
-                activatePlugin.setText(isActive ? R.string.Deactivate : R.string.Activate);
-            }
-            catch (RemoteException re)
-            {
-                Log.e(TAG, re.getMessage());
-            }
+            final boolean isActive = isActivePlugin(pluginRecord.getPackageName());
+            activatePlugin.setText(isActive ? R.string.Deactivate : R.string.Activate);
             activatePlugin.setOnClickListener(new View.OnClickListener()
             {
                 @Override public void onClick(View v)
@@ -190,46 +219,29 @@ public class PluginListAdapter extends BaseAdapter
 
     private void activatePlugin(final PluginRecord pluginRecord)
     {
-        try
+        final boolean isActive = isActivePlugin(pluginRecord.getPackageName());
+        if(isActive)
         {
-            final boolean isActive = contextManagement.isActivePlugin(pluginRecord.getPackageName());
-            if(isActive)
-            {
-
-            }
-            else
-            {
-
-            }
+            //todo
         }
-        catch (RemoteException re)
+        else
         {
-            Log.e(TAG, re.getMessage());
+            //todo
         }
     }
 
     private void updateContextValue(final TextView contextValueTextView, final PluginRecord pluginRecord)
     {
-        if(contextAccess != null)
+        final StringBuilder stringBuilder = new StringBuilder();
+        final String [] scopes = pluginRecord.getProvidedScopes();
+Log.d(TAG, "showing scopes: " + Arrays.toString(scopes));//todo delete
+        for(final String scope : scopes)
         {
-            final StringBuilder stringBuilder = new StringBuilder();
-            final String [] scopes = pluginRecord.getProvidedScopes();
-            for(final String scope : scopes)
-            {
-                stringBuilder.append(scope).append(" --> ");
-                try
-                {
-                    final ContextValue contextValue = contextAccess.getLastContextValue(scope);
-                    stringBuilder.append(contextValue.getValueAsJSONString());
-                }
-                catch (RemoteException re)
-                {
-                    Log.e(TAG, re.getMessage());
-                    stringBuilder.append("unable to fetch");
-                }
-                stringBuilder.append("\n");
-            }
-            contextValueTextView.setText(stringBuilder.toString());
+            stringBuilder.append(scope).append(" --> ");
+            final ContextValue contextValue = getLastContextValue(scope);
+            stringBuilder.append(contextValue);
+            stringBuilder.append("\n");
         }
+        contextValueTextView.setText(stringBuilder.toString());
     }
 }
