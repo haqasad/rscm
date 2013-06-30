@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+           version="2.5">
+
+    <!--JSON services-->
+
+    <servlet>
+        <servlet-name>DirectoryJSONServlet</servlet-name>
+        <servlet-class>org.aspectsense.rscm.server.json.DirectoryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DirectoryJSONServlet</servlet-name>
+        <url-pattern>/json/directory</url-pattern>
+    </servlet-mapping>
+
+    <!--End of JSON services-->
+
+    <!--Web Servlets-->
+
+    <servlet>
+        <servlet-name>DirectoryServlet</servlet-name>
+        <jsp-file>/directory.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DirectoryServlet</servlet-name>
+        <url-pattern>/directory</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddPluginServlet</servlet-name>
+        <jsp-file>/add-plugin.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddPluginServlet</servlet-name>
+        <url-pattern>/add-plugin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditPluginServlet</servlet-name>
+        <jsp-file>/edit-plugin.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditPluginServlet</servlet-name>
+        <url-pattern>/edit-plugin</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ModifyPluginServlet</servlet-name>
+        <servlet-class>org.aspectsense.rscm.server.admin.EditPluginEntryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ModifyPluginServlet</servlet-name>
+        <url-pattern>/admin/modify-plugin</url-pattern>
+    </servlet-mapping>
+
+    <!--End of Web Servlets-->
+
+    <!--Security constraints-->
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/json/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <!--End of Security constraints-->
+
+</web-app>
