@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter a context value and click submit to simulate an event with that value"
+            android:id="@+id/textView"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text='Context scope: "simulated.example"'
+            android:id="@+id/textView1" android:textSize="18sp" android:layout_marginTop="20dp" android:padding="8dp"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Context value"
+            android:id="@+id/editTextContextValue"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit context value"
+            android:id="@+id/buttonSubmit"/>
+</LinearLayout>
