@@ -20,5 +20,5 @@
   -->
 
 <resources>
-    <string name="app_name">plugin-sensor-location-passive</string>
+    <string name="app_name">RSCM plugin: location-passive</string>
 </resources>
