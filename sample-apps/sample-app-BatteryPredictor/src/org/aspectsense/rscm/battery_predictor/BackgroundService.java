@@ -45,7 +45,7 @@ public class BackgroundService extends Service
 
     public static final String BATTERY_LEVEL = "battery.level";
     public static final String POWER_CONNECTED = "power.connected";
-    public static final String LOCATION_BACKGROUND = "location.background";
+    public static final String LOCATION_BACKGROUND = "location.passive";
 
     public static final String [] REQUESTED_SCOPES = new String[] {
             BATTERY_LEVEL,
@@ -76,8 +76,8 @@ public class BackgroundService extends Service
         {
             if(BATTERY_LEVEL.equals(contextValue.getScope()))
             {
-                Toast.makeText(this, 1, Toast.LENGTH_SHORT).show();
                 final int newBatteryLevel = contextValue.getValueAsInteger();
+
                 if(newBatteryLevel != lastBatteryLevel)
                 {
                     lastBatteryLevel = newBatteryLevel;
