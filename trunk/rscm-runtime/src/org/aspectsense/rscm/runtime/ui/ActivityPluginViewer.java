@@ -36,7 +36,7 @@ import org.aspectsense.rscm.runtime.R;
 import java.util.List;
 import java.util.Vector;
 
-public class ActivityPluginViewer extends Activity implements ContextAccessAndManagementPortal
+public class ActivityPluginViewer extends Activity implements ContextAccessAndManagementPortal // todo delete
 {
     public static final String TAG = "org.aspectsense.rscm.viewer.ActivityPluginViewer";
 
@@ -49,7 +49,7 @@ public class ActivityPluginViewer extends Activity implements ContextAccessAndMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plugins_viewer);
 
-        this.listView = (ListView) findViewById(R.id.main_list_view);
+        this.listView = (ListView) findViewById(R.id.plugins_list_view);
         listView.setAdapter(new ArrayAdapter<PluginRecord>(this, R.layout.services_row, plugins));
     }
 
@@ -94,9 +94,19 @@ public class ActivityPluginViewer extends Activity implements ContextAccessAndMa
             handler.sendMessage(handler.obtainMessage(Constants.CONTEXT_MANAGEMENT_EVENT_TYPE_UNINSTALL, pluginRecord));
         }
 
+        @Override public void onListenerAdded(String scope, String listenerId) throws RemoteException
+        {
+            // ignore
+        }
+
+        @Override public void onListenerRemoved(String scope, String listenerId) throws RemoteException
+        {
+            // ignore
+        }
+
         @Override public String toString()
         {
-            return "ActivityPluginViewer#IContextManagementListener";
+            return ActivityPluginViewer.class.toString();
         }
     };
 
