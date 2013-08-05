@@ -49,12 +49,14 @@
         final String uuid = pluginEntry.getUUID();
         final String packageId = pluginEntry.getPackageId();
         final String developerUrl = pluginEntry.getDeveloperUrl();
+        final String downloadUrl = pluginEntry.getDownloadUrl();
 %>
 
     <div id="<%=uuid%>">
         <h2>Package ID: <%= packageId %></h2>
         <p>Description: <%= pluginEntry.getDescription() %></p>
         <p>Developer site: <a target="_blank" href="<%= developerUrl %>"><%= developerUrl %></a></p>
+        <p>Download URL: <a target="_blank" href="<%= downloadUrl %>"><%= downloadUrl %></a></p>
         <p>Provided scopes:</p>
         <ul>
 <%
