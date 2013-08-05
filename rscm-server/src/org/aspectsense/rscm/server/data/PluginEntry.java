@@ -14,6 +14,7 @@ public class PluginEntry implements Serializable
     private final String creatorEmail;
     private final String description;
     private final String developerUrl;
+    private final String downloadUrl;
     private final String providedScopes;
     private final String requiredScopes;
     private final String permissions;
@@ -26,6 +27,7 @@ public class PluginEntry implements Serializable
                 final String creatorEmail,
                 final String description,
                 final String developerUrl,
+                final String downloadUrl,
                 final String providedScopes,
                 final String requiredScopes,
                 final String permissions,
@@ -38,6 +40,7 @@ public class PluginEntry implements Serializable
         this.creatorEmail = creatorEmail;
         this.description = description;
         this.developerUrl = developerUrl;
+        this.downloadUrl = downloadUrl;
         this.providedScopes = providedScopes;
         this.requiredScopes = requiredScopes;
         this.permissions = permissions;
@@ -69,6 +72,11 @@ public class PluginEntry implements Serializable
     public String getDeveloperUrl()
     {
         return developerUrl;
+    }
+
+    public String getDownloadUrl()
+    {
+        return downloadUrl;
     }
 
     public String getProvidedScopes()

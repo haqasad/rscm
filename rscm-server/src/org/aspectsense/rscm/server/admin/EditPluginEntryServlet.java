@@ -44,6 +44,7 @@ log(getClass() + ": uuid: " + uuid);//todo delete
             final String packageID = request.getParameter(PluginEntryFactory.PROPERTY_PACKAGE_ID);
             final String description = request.getParameter(PluginEntryFactory.PROPERTY_DESCRIPTION);
             final String developerURL = request.getParameter(PluginEntryFactory.PROPERTY_DEVELOPER_URL);
+            final String downloadURL = request.getParameter(PluginEntryFactory.PROPERTY_DOWNLOAD_URL);
             final String providedScopes = request.getParameter(PluginEntryFactory.PROPERTY_PROVIDED_SCOPES);
             final String requiredScopes = request.getParameter(PluginEntryFactory.PROPERTY_REQUIRED_SCOPES);
             final String permissionsS = request.getParameter(PluginEntryFactory.PROPERTY_PERMISSIONS);
@@ -68,6 +69,7 @@ log(getClass() + ": uuid: " + uuid);//todo delete
                                 uuid,
                                 description,
                                 developerURL,
+                                downloadURL,
                                 providedScopes,
                                 requiredScopes,
                                 permissionsS,
@@ -91,6 +93,7 @@ log(getClass() + ": uuid: " + uuid);//todo delete
                         userEmail,
                         description,
                         developerURL,
+                        downloadURL,
                         providedScopes,
                         requiredScopes,
                         permissionsS,

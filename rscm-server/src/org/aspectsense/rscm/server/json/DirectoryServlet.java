@@ -87,10 +87,12 @@ public class DirectoryServlet extends javax.servlet.http.HttpServlet
                             "      \"packageId\": \"" + pluginEntry.getPackageId() + "\",\n" +
                             "      \"description\": \"" + pluginEntry.getDescription() + "\",\n" +
                             "      \"developerUrl\": \"" + pluginEntry.getDeveloperUrl() + "\",\n" +
+                            "      \"downloadUrl\": \"" + pluginEntry.getDownloadUrl() + "\",\n" +
                             "      \"providedScopes\": " + asJsonArray(pluginEntry.getProvidedScopes()) + ",\n" +
                             "      \"requiredScopes\": " + asJsonArray(pluginEntry.getRequiredScopes()) + ",\n" +
                             "      \"permissions\": " + asJsonArray(pluginEntry.getPermissions()) + ",\n" +
-                            "      \"isDeprecated\": " + pluginEntry.isDeprecated() + "\n" +
+                            "      \"isDeprecated\": " + pluginEntry.isDeprecated() + ",\n" +
+                            "      \"lastUpdated\": " + pluginEntry.getLastUpdated() + ",\n" +
                             "      \"uploaded\": " + pluginEntry.getUploaded() + "\n" +
                             "    }" + (iterator.hasNext() ? ",\n\n" : "\n")
             );

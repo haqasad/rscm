@@ -21,6 +21,7 @@ public class PluginEntryFactory
     public static final String PROPERTY_CREATOR_EMAIL   = "creator_email";
     public static final String PROPERTY_DESCRIPTION     = "description";
     public static final String PROPERTY_DEVELOPER_URL   = "developer_url";
+    public static final String PROPERTY_DOWNLOAD_URL    = "download_url";
     public static final String PROPERTY_PROVIDED_SCOPES = "provided_scopes";
     public static final String PROPERTY_REQUIRED_SCOPES = "required_scopes";
     public static final String PROPERTY_PERMISSIONS     = "permissions";
@@ -65,6 +66,7 @@ public class PluginEntryFactory
                                      final String creatorEmail,
                                      final String description,
                                      final String developerUrl,
+                                     final String downloadUrl,
                                      final String providedScopes,
                                      final String requiredScopes,
                                      final String permissions,
@@ -77,6 +79,7 @@ public class PluginEntryFactory
         pluginEntryEntity.setProperty(PROPERTY_CREATOR_EMAIL, creatorEmail);
         pluginEntryEntity.setProperty(PROPERTY_DESCRIPTION, description);
         pluginEntryEntity.setProperty(PROPERTY_DEVELOPER_URL, developerUrl);
+        pluginEntryEntity.setProperty(PROPERTY_DOWNLOAD_URL, downloadUrl);
         pluginEntryEntity.setProperty(PROPERTY_PROVIDED_SCOPES, providedScopes);
         pluginEntryEntity.setProperty(PROPERTY_REQUIRED_SCOPES, requiredScopes);
         pluginEntryEntity.setProperty(PROPERTY_PERMISSIONS, permissions);
@@ -91,6 +94,7 @@ public class PluginEntryFactory
     static public Key editPluginEntry(final String uuid,
                                       final String description,
                                       final String developerUrl,
+                                      final String downloadUrl,
                                       final String providedScopes,
                                       final String requiredScopes,
                                       final String permissions,
@@ -102,6 +106,7 @@ public class PluginEntryFactory
 
         pluginEntryEntity.setProperty(PROPERTY_DESCRIPTION, description);
         pluginEntryEntity.setProperty(PROPERTY_DEVELOPER_URL, developerUrl);
+        pluginEntryEntity.setProperty(PROPERTY_DOWNLOAD_URL, downloadUrl);
         pluginEntryEntity.setProperty(PROPERTY_PROVIDED_SCOPES, providedScopes);
         pluginEntryEntity.setProperty(PROPERTY_REQUIRED_SCOPES, requiredScopes);
         pluginEntryEntity.setProperty(PROPERTY_PERMISSIONS, permissions);
@@ -120,6 +125,7 @@ public class PluginEntryFactory
                 (String) entity.getProperty(PROPERTY_CREATOR_EMAIL),
                 (String) entity.getProperty(PROPERTY_DESCRIPTION),
                 (String) entity.getProperty(PROPERTY_DEVELOPER_URL),
+                (String) entity.getProperty(PROPERTY_DOWNLOAD_URL),
                 (String) entity.getProperty(PROPERTY_PROVIDED_SCOPES),
                 (String) entity.getProperty(PROPERTY_REQUIRED_SCOPES),
                 (String) entity.getProperty(PROPERTY_PERMISSIONS),

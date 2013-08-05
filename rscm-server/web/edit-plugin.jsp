@@ -37,6 +37,10 @@
                 <td><input style="width: 400px;" type="text" name="<%= PluginEntryFactory.PROPERTY_DEVELOPER_URL%>" value="<%=pluginEntry.getDeveloperUrl()%>"/></td>
             </tr>
             <tr>
+                <td><b>Download URL</b></td>
+                <td><input style="width: 400px;" type="text" name="<%= PluginEntryFactory.PROPERTY_DOWNLOAD_URL%>" value="<%=pluginEntry.getDownloadUrl()%>"/></td>
+            </tr>
+            <tr>
                 <td><b>Provided Scopes (comma separated list)</b></td>
                 <td><input style="width: 400px;" type="text" name="<%= PluginEntryFactory.PROPERTY_PROVIDED_SCOPES %>" value="<%=pluginEntry.getProvidedScopes()%>"/></td>
             </tr>
